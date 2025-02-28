@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MySQL参数基线查询系统</title>
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px;
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        h1 {
+            font-family: 'Roboto Condensed', sans-serif;
+            color: #34495e;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+       .input-section,
+       .param-section {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+       .input-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        /* 调整搜索框样式 */
+        #parameter {
+            width: calc(100% - 40px);
+            padding: 12px 10px 12px 40px;
+            border: 1px solid #dfe1e5;
+            border-radius: 24px;
+            font-size: 16px;
+            box-shadow: none;
+            transition: box-shadow 0.3s, border-color 0.3s;
+        }
+
+        #parameter:focus {
+            outline: none;
+            border-color: transparent;
+            box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+        }
+
+        /* 新增搜索图标样式 */
+       .input-group .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #9aa0a6;
+        }
+
+        /* 按钮居中样式 */
+       .input-section button {
+            display: block;
+            margin: 0 auto;
+        }
+
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        #result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #paramList {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+       .paramButton {
+            background-color: #fdf6e3;
+            color: #333;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+       .paramButton:hover {
+            background-color: #f5e8c7;
+            color: #333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+        .param-card {
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: calc(33.33% - 40px); /* 三列布局 */
+            box-sizing: border-box;
+            float: left;
+            margin-right: 20px;
+        }
+
+        .param-card:nth-child(3n) {
+            margin-right: 0;
+        }
+
+        .param-card h2 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .param-card ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .param-card li {
+            cursor: pointer;
+            padding: 5px 0;
+            /* 允许在单词内部换行 */
+            /*word-break: break-all; */
+            word-wrap: break-word;
+        }
+
+        .param-card li:hover {
+            text-decoration: underline;
+        }
+
+        #paramList {
+            overflow: hidden; /* 清除浮动 */
+        }
+                #suggestions {
+                    position: absolute;
+                    background-color: white;
+                    border: 1px solid #dfe1e5;
+                    border-top: none;
+                    border-radius: 0 0 24px 24px;
+                    max-height: 200px;
+                    overflow-y: auto;
+                    width: 100%;
+                    display: none;
+                    box-shadow: 0 4px 6px rgba(32, 33, 36, 0.28);
+                }
+
+        #suggestions div {
+            padding: 8px 10px;
+            cursor: pointer;
+        }
+
+        #suggestions div:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>MySQL参数基线查询系统</h1>
+    <div class="input-section">
+        <div class="input-group">
+            <!-- 新增搜索图标 -->
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="parameter" required placeholder="请输入或选择MySQL参数" oninput="showSuggestions()">
+            <div id="suggestions"></div>
+        </div>
+        <button onclick="generateSuggestion()">查询基线配置</button>
+        <div id="result"></div>
+    </div>
+
+    <div class="param-section">
+        <h2>可查询参数列表</h2>
+        <div id="paramList"></div>
+    </div>
+    <script src="mysql_cnf.js"></script>
+</body>
+
+</html>
