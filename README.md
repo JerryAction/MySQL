@@ -24,4 +24,4 @@
 
 使用方式：双击 mysql_diff_cnf.html 文件即可。
 
-https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECIgxoy3W3gmIrm3WB_a9BSwtbz313RwAChBsAAr4MWVa5p4bTXLn5RjYE.png
+![image](https://img.remit.ee/api/file/BQACAgUAAyEGAASHRsPbAAECIgxoy3W3gmIrm3WB_a9BSwtbz313RwAChBsAAr4MWVa5p4bTXLn5RjYE.png)
