@@ -25,3 +25,10 @@
 使用方式：双击 mysql_diff_cnf.html 文件即可。
 
 ![输入图片说明](002%20MySQL%20%E5%8F%82%E6%95%B0%E5%AF%B9%E6%AF%94%E5%B7%A5%E5%85%B7/image.png)
+
+小工具 003 《主机压测》
+单html文件，用于对主机进行压测测试包括CPU、内存、磁盘、MySQL。使用工具sysbench 和 fio。
+使用方法：自定义压测参数、shell脚本、上传日志生成图表。
+支持 压测配置、脚本生成、日志分析 & 图表、多主机对比
+<img width="1366" height="786" alt="image" src="https://github.com/user-attachments/assets/355111cc-ff99-4aaa-b0cb-7b21a4233abc" />
+<img width="1350" height="1137" alt="image" src="https://github.com/user-attachments/assets/aa7d9582-e9ee-420d-ada2-1492f6df870e" />
